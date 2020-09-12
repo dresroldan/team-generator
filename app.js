@@ -10,14 +10,13 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+let newTeam = [];
 
-async function start() {
+console.log("Let's create your team!");
 
-    console.log("Let's create your team!");
 
-    let newTeam = [];
-
-    var managersName = await inquirer.prompt([{
+function createManager() {
+    inquirer.prompt([{
             type: "input",
             message: "What is your managers name?",
             name: "name"
@@ -37,17 +36,100 @@ async function start() {
             message: "What is your managers office number?",
             name: "officeNumber"
         }
-    ])
 
-    console.log(managersName);
-    const newManager = new Manager(managersName.name, managersName.id, managersName.email, managersName.officeNumber);
-    newTeam.push(newManager);
-    console.log(render(newTeam));
-    fs.writeFileSync(outputPath, render(newTeam));
+
+    ]).then(function(response) {
+        const newManager = new Manager(response.name, response.id, response.email, response.officeNumber);
+        newTeam.push(newManager);
+        addMember();
+
+
+    });
+
 }
 
+function addMember() {
+    inquirer.prompt([{
 
-start();
+            type: "list",
+            name: "choice",
+            message: "What type of team member would you like to add?",
+            choices: ["Engineer", "Intern", "I don't want to add any more team members"]
+        }
+
+    ]).then(function(response) {
+        if (response.type === "Engineer") {
+            createEngineer();
+        } else if (response.type === "Intern") {
+            createIntern();
+        } else {
+            fs.mkdirSync(OUTPUT_DIR)
+            fs.writeFileSync(outputPath, render(newTeam), 'utf-8')
+        }
+
+    })
+}
+
+// function createEngineer() {
+//     inquirer.prompt([{
+
+//             type: "input",
+//             message: "What is your engineer's name?",
+//             name: "name"
+//         },
+//         {
+//             type: "input",
+//             message: "What is your engineer's id?",
+//             name: "id"
+//         },
+//         {
+//             type: "input",
+//             message: "What is your engineer's email?",
+//             name: "email"
+//         },
+//         {
+//             type: "input",
+//             message: "What is your engineer's github?",
+//             name: "github"
+//         }
+
+
+//     ]).then(function(response) {
+
+//         const newEngineer = new Engineer(engineersName.name, engineersName.id, engineersName.email, engineersName.officeNumber);
+//         newTeam.push(newManager);
+//         addMember();
+
+//     })
+
+// }
+
+
+createManager();
+
+
+
+
+// switch statement after manager is made:
+// switch(response for questions of what they want to do after manking manager)
+// case 'make engineer': engineerQuestionsPrompt()
+// case 'make intern': internQuestionsPrompt()
+// case 'quit': 
+
+// console.log(managersName);
+// const newManager = new Manager(managersName.name, managersName.id, managersName.email, managersName.officeNumber);
+// newTeam.push(newManager);
+// console.log(render(newTeam));
+// // fs.writeFileSync(outputPath, render(newTeam));
+
+
+
+
+
+// }
+
+
+// start();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
