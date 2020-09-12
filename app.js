@@ -52,15 +52,15 @@ function addMember() {
     inquirer.prompt([{
 
             type: "list",
-            name: "choice",
+            name: "type",
             message: "What type of team member would you like to add?",
             choices: ["Engineer", "Intern", "I don't want to add any more team members"]
         }
 
-    ]).then(function(response) {
-        if (response.type === "Engineer") {
+    ]).then(function(answer) {
+        if (answer.type === "Engineer") {
             createEngineer();
-        } else if (response.type === "Intern") {
+        } else if (answer.type === "Intern") {
             createIntern();
         } else {
             fs.mkdirSync(OUTPUT_DIR)
@@ -70,39 +70,39 @@ function addMember() {
     })
 }
 
-// function createEngineer() {
-//     inquirer.prompt([{
+function createEngineer() {
+    inquirer.prompt([{
 
-//             type: "input",
-//             message: "What is your engineer's name?",
-//             name: "name"
-//         },
-//         {
-//             type: "input",
-//             message: "What is your engineer's id?",
-//             name: "id"
-//         },
-//         {
-//             type: "input",
-//             message: "What is your engineer's email?",
-//             name: "email"
-//         },
-//         {
-//             type: "input",
-//             message: "What is your engineer's github?",
-//             name: "github"
-//         }
+            type: "input",
+            message: "What is your engineer's name?",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is your engineer's id?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is your engineer's email?",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "What is your engineer's github?",
+            name: "github"
+        }
 
 
-//     ]).then(function(response) {
+    ]).then(function(response) {
 
-//         const newEngineer = new Engineer(engineersName.name, engineersName.id, engineersName.email, engineersName.officeNumber);
-//         newTeam.push(newManager);
-//         addMember();
+        const newEngineer = new Engineer(response.name, response.id, response.email, response.officeNumber);
+        newTeam.push(newEngineer);
+        addMember();
 
-//     })
+    });
 
-// }
+}
 
 
 createManager();
