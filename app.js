@@ -37,12 +37,10 @@ function createManager() {
             name: "officeNumber"
         }
 
-
     ]).then(function(response) {
         const newManager = new Manager(response.name, response.id, response.email, response.officeNumber);
         newTeam.push(newManager);
         addMember();
-
 
     });
 
@@ -66,8 +64,7 @@ function addMember() {
             fs.mkdirSync(OUTPUT_DIR)
             fs.writeFileSync(outputPath, render(newTeam), 'utf-8')
         }
-
-    })
+    });
 }
 
 function createEngineer() {
@@ -96,8 +93,40 @@ function createEngineer() {
 
     ]).then(function(response) {
 
-        const newEngineer = new Engineer(response.name, response.id, response.email, response.officeNumber);
+        const newEngineer = new Engineer(response.name, response.id, response.email, response.github);
         newTeam.push(newEngineer);
+        addMember();
+    });
+
+}
+
+function createIntern() {
+    inquirer.prompt([{
+
+            type: "input",
+            message: "What is your Intern's name?",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is your Intern's id?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is your Intern's email?",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "What is your Intern's school?",
+            name: "school"
+        }
+
+    ]).then(function(response) {
+
+        const newIntern = new Intern(response.name, response.id, response.email, response.school);
+        newTeam.push(newIntern);
         addMember();
 
     });
@@ -106,50 +135,3 @@ function createEngineer() {
 
 
 createManager();
-
-
-
-
-// switch statement after manager is made:
-// switch(response for questions of what they want to do after manking manager)
-// case 'make engineer': engineerQuestionsPrompt()
-// case 'make intern': internQuestionsPrompt()
-// case 'quit': 
-
-// console.log(managersName);
-// const newManager = new Manager(managersName.name, managersName.id, managersName.email, managersName.officeNumber);
-// newTeam.push(newManager);
-// console.log(render(newTeam));
-// // fs.writeFileSync(outputPath, render(newTeam));
-
-
-
-
-
-// }
-
-
-// start();
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
