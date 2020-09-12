@@ -11,8 +11,43 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
+async function start() {
+
+    console.log("Let's create your team!");
+
+    let newTeam = [];
+
+    var managersName = await inquirer.prompt([{
+            type: "input",
+            message: "What is your managers name?",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is your managers id?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is your managers email?",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "What is your managers office number?",
+            name: "officeNumber"
+        }
+    ])
+
+    console.log(managersName);
+    const newManager = new Manager(managersName.name, managersName.id, managersName.email, managersName.officeNumber);
+    newTeam.push(newManager);
+    console.log(render(newTeam));
+    fs.writeFileSync(outputPath, render(newTeam));
+}
 
 
+start();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
